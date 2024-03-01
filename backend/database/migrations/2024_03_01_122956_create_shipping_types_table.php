@@ -11,10 +11,7 @@ class CreateShippingTypesTable extends Migration
         Schema::create('shipping_types', function (Blueprint $table) {
             $table->id();
             $table->timestamp('date');
-            $table->unsignedBigInteger('shipping_type_id');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->timestamps();
+            $table->text('title');
         });
     }
 
