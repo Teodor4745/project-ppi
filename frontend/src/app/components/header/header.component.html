@@ -1,0 +1,18 @@
+<header class="bg-primary-custom">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item px-2" *ngFor="let link of links">
+              <a class="nav-link" routerLink="{{ link.url }}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">{{ link.label }}</a>
+            </li>  
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </header>
+  

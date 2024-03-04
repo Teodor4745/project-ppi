@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+$bg_primary: #62e317;
+$text_primary: #fff;
+$bg_secondary: #e3944f;
+
+.bg-primary-custom {
+    background-color: $bg_primary;
+}
+
+.bg-secondary-custom {
+    background-color: $bg_secondary;
+}
