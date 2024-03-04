@@ -16,7 +16,7 @@ class ProductCategoriesTableSeeder extends Seeder
             ['type_id' => 1, 'title' => 'Гризачи'],
             ['type_id' => 1, 'title' => 'Птици'],
             ['type_id' => 1, 'title' => 'Влечуги'],
-            ['type_id' => 1, 'title' => 'Егзотични животни'],
+            ['type_id' => 1, 'title' => 'Екзотични животни'],
             ['type_id' => 3, 'title' => 'Храна'],
             ['type_id' => 2, 'title' => 'Аксесоари'],
         ];
