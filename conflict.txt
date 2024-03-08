@@ -7,3 +7,8 @@ More
 Info
 To Simulate
 A conflict!
+. More testing
+TO 
+Resolve
+A 
+Conflict!
