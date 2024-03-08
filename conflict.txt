@@ -1,23 +1,10 @@
 This
 is a 
 test
-conflict
-
-text rftgyhujiop[ tfgyhujikolp
-
-
-gvhbujikpo[]
-ftgyhujikop]
-fgvhujikop
-fghyuhuio
-fghujikolp;[
-    gbhjkolp;[']
-    hjkl;'\]
-    lkiuyfghjkl
-    gvbhjkl
-    hgffghj85
-
-
-    hvhjk
-    k
-]]
+conflict!
+Adding
+More
+Info
+To Simulate
+A conflict!
+>>>>>>> e6349b58d3710b6155c02074e0798fee0cd67ac7
