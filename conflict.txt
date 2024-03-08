@@ -7,4 +7,10 @@ More
 Info
 To Simulate
 A conflict!
->>>>>>> e6349b58d3710b6155c02074e0798fee0cd67ac7
+test_conflict_resolving
+e6349b58d3710b6155c02074e0798fee0cd67ac7
+. More testing
+TO 
+Resolve
+A 
+Conflict!
