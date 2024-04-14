@@ -1,7 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-$bg_primary: #62e317;
-$text_primary: #fff;
-$bg_secondary: #e3944f;
+$bg_primary: #627254;
+$bg_secondary: #76885B;
+$text_primary: #EEEEEE;
+$text_secondary: #DDDDDD;
 
 .bg-primary-custom {
     background-color: $bg_primary;
@@ -9,4 +10,24 @@ $bg_secondary: #e3944f;
 
 .bg-secondary-custom {
     background-color: $bg_secondary;
+}
+
+.btn-custom-primary {
+    background-color: $bg_primary;
+    color: $text_primary;
+    border-radius: 10px;
+    padding: 8px 18px;
+
+    &:hover {
+        background-color: $bg_secondary;
+    }
+}
+
+a {
+    color: $text_primary;
+    text-decoration: none;
+}
+
+.text-justify {
+    text-align: justify;
 }

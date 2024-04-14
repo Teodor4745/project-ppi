@@ -1,0 +1,28 @@
+@import '../../../styles.scss';
+
+
+.parallax {
+    background-image: url("../../../assets/img/home/home-bg.jpg");
+  
+    min-height: 500px;
+  
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+  .box {
+    background-color: $bg_primary;
+    border-radius: 10px;
+    color: #fff;
+    min-height: 430px;
+    img {
+        height: 250px;
+    }
+
+    p {
+        text-align: justify;
+    }
+}

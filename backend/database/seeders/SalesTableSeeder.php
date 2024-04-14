@@ -3,16 +3,25 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class SalesTableSeeder extends Seeder
 {
     public function run()
     {
-        $sales = [
-            [   'shipping_type_id' => 3, 
-                'user_id' => 2],
-        ];
+        if (Schema::hasTable('sales')) {
+            $count = DB::table('sales')->count();
+        }
+        $count = 0;
 
-        DB::table('sales')->insert($sales);
+        if($count == 0) {
+            $sales = [
+                [   'shipping_type_id' => 3, 
+                    'user_id' => 2],
+            ];
+    
+            DB::table('sales')->insert($sales);
+        }
+        
     }
 }
