@@ -1,0 +1,25 @@
+@import '../../../styles.scss';
+
+.parallax {
+    background-image: url("../../../assets/img/contact/contact.jpg");
+  
+    min-height: 400px;
+  
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    color: $bg_primary;
+}
+
+
+.form-wrapper {
+    background-color: $bg_primary;
+    padding: 20px;
+    .form-floating {
+        textarea {
+            min-height: 150px;
+        }
+    }
+}

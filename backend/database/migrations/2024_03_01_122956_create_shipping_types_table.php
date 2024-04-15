@@ -17,6 +17,6 @@ class CreateShippingTypesTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('sales');
+        Schema::dropIfExists('shipping_types');
     }
 }

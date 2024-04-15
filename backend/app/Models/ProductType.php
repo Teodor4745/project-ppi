@@ -1,20 +1,19 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProductCategory extends Model
+class ProductType extends Model
 {
-    protected $table = 'product_categories';
+    protected $table = 'product_types';
 
     protected $fillable = [
-        'type_id',
         'title',
     ];
 
-    public function type()
+    public function categories()
     {
-        return $this->belongsTo(ProductType::class, 'type_id');
+        return $this->hasMany(ProductCategory::class, 'type_id');
     }
 }
