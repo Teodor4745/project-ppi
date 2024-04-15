@@ -7,11 +7,24 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::all();
-        return view('products.index', compact('products'));
+        $query = Product::query();
+
+        if ($request->filled('category_id')) {
+            $query->where('product_category', $request->category_id);
+        }
+
+        if ($request->filled('type_id')) {
+            $query->whereHas('category', function ($query) use ($request) {
+                $query->where('type_id', $request->type_id);
+            });
+        }
+
+        $products = $query->get();
+        return response()->json($products);
     }
+
 
     public function store(Request $request)
     {
@@ -20,31 +33,50 @@ class ProductController extends Controller
             'price' => 'required|numeric',
             'product_category' => 'required|numeric',
             'description' => 'required|max:1000',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        Product::create($validatedData);
-        return redirect()->route('products.index')->with('success', 'Product created successfully.');
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $filename);
+            $validatedData['image'] = 'images/' . $filename;
+        }
+
+        $product = Product::create($validatedData);
+        return response()->json($product, 201);
     }
 
     public function show(Product $product)
     {
-        return view('products.show', compact('product'));
+        return response()->json($product);
     }
+
 
     public function update(Request $request, Product $product)
     {
         $validatedData = $request->validate([
-            'name' => 'required|max:255',
+            'title' => 'required|max:255',
             'price' => 'required|numeric',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
         ]);
 
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $filename);
+            $validatedData['image'] = 'images/' . $filename;
+        }
+
         $product->update($validatedData);
-        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
+        return response()->json($product);
     }
+
 
     public function destroy(Product $product)
     {
         $product->delete();
-        return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
+        return response()->json(['message' => 'Product deleted successfully.']);
     }
+
 }

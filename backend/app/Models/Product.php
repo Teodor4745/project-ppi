@@ -13,7 +13,7 @@ class Product extends Model
         'description',
     ];
     
-    public function type()
+    public function category()
     {
         return $this->belongsTo(ProductCategory::class, 'product_category');
     }

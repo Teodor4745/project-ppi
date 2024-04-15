@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 
 
@@ -23,7 +24,7 @@ class UsersTableSeeder extends Seeder
                 ['firstname' => 'Теодор',
                 'lastname' => 'Иванов',
                 'username' => 'teodor',
-                'password' => '123456',
+                'password' => Hash::make('password'),
                 'email' => 'teo@gmail.com',
                 'telephone' => null,
                 'address' => null,
@@ -32,7 +33,7 @@ class UsersTableSeeder extends Seeder
                 ['firstname' => 'Михаела',
                 'lastname' => 'Христова',
                 'username' => 'mihaela',
-                'password' => '123456',
+                'password' => Hash::make('password'),
                 'email' => 'hmihaela36@gmail.com',
                 'telephone' => null,
                 'address' => null,

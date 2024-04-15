@@ -1,6 +1,9 @@
 <?php
 namespace Database\Seeders;
 
+use App\Models\Product;
+use App\Models\ShippingType;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -15,12 +18,20 @@ class SalesTableSeeder extends Seeder
         $count = 0;
 
         if($count == 0) {
-            $sales = [
-                [   'shipping_type_id' => 3, 
-                    'user_id' => 2],
-            ];
+            
+
+            $shipping_type = ShippingType::first(); 
+            $user = User::first(); 
+
+            if ($shipping_type && $user) {
+                $sales = [
+                    [   'shipping_type_id' => $shipping_type->id, 
+                        'user_id' => $user->id],
+                ];
     
-            DB::table('sales')->insert($sales);
+                DB::table('sales')->insert($sales);
+            }
+            
         }
         
     }
