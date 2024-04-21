@@ -1,33 +1,80 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { CommonModule } from '@angular/common';
+import { Dialog, DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DialogModule],
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss'],
   providers: [ProductService],
 })
 export class ProductsComponent implements OnInit {
   products: any[] = [];
+  animals: any[] = [];
+  foods: any[] = [];
+  accessories: any[] = [];
+  animalCategories: string[] = []; 
 
   constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
-    this.loadProducts();
+    this.loadAnimalCategories(); 
+    this.loadProductsByType('Животно');
+    this.loadProductsByType('Аксесоари');
+    this.loadProductsByType('Храна');
   }
 
-  loadProducts(filters?: any): void {
-    this.productService.getProducts(filters).subscribe({
+  loadProductsByType(typeName: string): void {
+    this.productService.getProducts({type_name: typeName}).subscribe({
       next: (data) => {
-        this.products = data;
-        console.log(this.products);
+        if (typeName === 'Животно') {
+          this.animals = data;
+        } else if (typeName === 'Храна') {
+          this.foods = data;
+        } else if (typeName === 'Аксесоари') {
+          this.accessories = data;
+        }
       },
       error: (error) => {
-        console.error('There was an error!', error);
+        console.error('Проблем при извличане на продуктите!', error);
       }
     });
+  }
+
+  filterByAnimalCategory(event: any, category: string): void {
+    event.preventDefault();
+    console.log(category);
+    if (category === 'Всички') {
+        this.loadProductsByType('Животно');
+    } else {
+        this.productService.getProducts({type_name: 'Животно', category_name: category}).subscribe({
+          next: (data) => {
+            this.animals = data;
+          },
+          error: (error) => {
+            console.error('There was an error while filtering!', error);
+          }
+        });
+    }
+}
+
+
+  loadAnimalCategories(): void {
+    this.productService.getCategories('Животно').subscribe({
+      next: (categories) => {
+        this.animalCategories = categories.map(cat => cat.title);
+        this.animalCategories.unshift('Всички');
+      },
+      error: (error) => {
+        console.error('Категориите не бяха заредени!', error);
+      }
+    });
+  }
+
+  scrollTo(section: string): void {
+    document.getElementById(section)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }

@@ -4,26 +4,30 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\ProductCategory;
 
 class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::query();
+        $query = Product::query()->with('category.type');
 
-        if ($request->filled('category_id')) {
-            $query->where('product_category', $request->category_id);
+        if ($request->filled('type_name')) {
+            $query->whereHas('category.type', function ($typeQuery) use ($request) {
+                $typeQuery->where('title', $request->type_name);
+            });
         }
 
-        if ($request->filled('type_id')) {
+        if ($request->filled('category_name')) {
             $query->whereHas('category', function ($query) use ($request) {
-                $query->where('type_id', $request->type_id);
+                $query->where('title', $request->category_name);
             });
         }
 
         $products = $query->get();
         return response()->json($products);
     }
+
 
 
     public function store(Request $request)
@@ -78,5 +82,20 @@ class ProductController extends Controller
         $product->delete();
         return response()->json(['message' => 'Product deleted successfully.']);
     }
+
+
+    public function getCategories(Request $request)
+    {
+        if ($request->filled('type_name')) {
+            $categories = ProductCategory::whereHas('type', function ($query) use ($request) {
+                $query->where('title', $request->type_name);
+            })->get(['id', 'title']);
+        } else {
+            $categories = ProductCategory::all(['id', 'title']);
+        }
+
+        return response()->json($categories);
+    }
+
 
 }

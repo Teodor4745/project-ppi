@@ -50,4 +50,15 @@ class UserController extends Controller
         $user->delete();
         return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
+
+    public function getUser(Request $request)
+    {
+        $user = $request->user();
+        
+        $user->load('role');
+
+        $user->role_name = $user->role->role_name; 
+
+        return response()->json($user);
+    }
 }

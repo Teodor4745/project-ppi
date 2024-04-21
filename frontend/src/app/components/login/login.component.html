@@ -1,1 +1,25 @@
-<p>login works!</p>
+<section id="login" class="d-flex align-items-center">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <h2 class="text-center mb-4">Вход</h2>
+            <form [formGroup]="loginForm" (submit)="onSubmit($event)">
+              <div class="mb-3">
+                <label for="email" class="form-label">Електронна поща:</label>
+                <input type="email" class="form-control" id="email" formControlName="email">
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Парола:</label>
+                <input type="password" class="form-control" id="password" formControlName="password">
+              </div>
+              <button type="submit" class="btn btn-custom-primary">Login</button>
+              <!-- <button type="button" class="btn btn-link" (click)="goToRegistration()">Register</button> -->
+            </form>
+          </div>
+        </div>
+        <div class="alert alert-danger d-flex align-items-center mt-3" role="alert" *ngIf="loginFailed">
+            <i class="fa-solid fa-triangle-exclamation me-2"></i>
+            Грешна поща или парола!
+          </div>
+      </div>    
+</section>

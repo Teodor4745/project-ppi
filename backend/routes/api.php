@@ -4,6 +4,7 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +17,7 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'getUser']);
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -27,8 +26,14 @@ Route::group(['prefix' => 'products'], function () {
     Route::post('/', [ProductController::class, 'store']); 
     Route::get('/{product}', [ProductController::class, 'show']); 
     Route::put('/{product}', [ProductController::class, 'update']); 
-    Route::delete('/{product}', [ProductController::class, 'destroy']);     
+    Route::delete('/{product}', [ProductController::class, 'destroy']);         
 });
+
+Route::get('/categories', [ProductController::class, 'getCategories']);
+
+
+
+
 
 
 
