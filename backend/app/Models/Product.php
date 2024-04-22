@@ -11,10 +11,16 @@ class Product extends Model
         'price',
         'title',
         'description',
+        'image',
     ];
     
     public function category()
     {
         return $this->belongsTo(ProductCategory::class, 'product_category');
+    }
+
+    public function sales()
+    {
+        return $this->belongsToMany(Sale::class, 'sale_products');
     }
 }

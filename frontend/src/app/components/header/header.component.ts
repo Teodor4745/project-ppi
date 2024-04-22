@@ -1,20 +1,65 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [RouterLink, RouterLinkActive, CommonModule],
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
+  providers: [AuthService, Router],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
+  isLoggedIn: boolean = false;
+  isAdmin: boolean = false;
+  cartCount = 0;
+
   links = [
     { label: 'Начало', url: '/' },
     { label: 'За нас', url: '/about' },
     { label: 'Продукти', url: '/products' },
     { label: 'Контакти', url: '/contact' },
-    { label: 'Вход', url: '/login' }
   ];
+
+  constructor(
+    private authService: AuthService, 
+    private router: Router,
+    private cdr: ChangeDetectorRef) {}
+
+  ngOnInit(): void {
+    this.getUser();
+
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.getUser();
+    });
+
+  }
+
+  getUser(): void { 
+    this.authService.getUser()?.subscribe(user => {
+      if (user) {
+        this.isLoggedIn = true;
+        if(user.role_name === 'Admin') {
+          this.isAdmin = true;
+        }
+      }
+      else {
+        this.isLoggedIn = false;
+        this.isAdmin = false;
+      } 
+    });
+  }
+
+  logOut(): void {
+    if (confirm('Сигурни ли сте че искате да се отпишете?')) {
+      this.authService.logout();
+    }
+    this.router.navigateByUrl('/');
+    this.getUser();
+  }
 }

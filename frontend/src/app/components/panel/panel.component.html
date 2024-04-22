@@ -1,0 +1,34 @@
+<!-- src/app/components/product/product.component.html -->
+<div class="container mt-4">
+    <h2>Добавяне на продукт</h2>
+  
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="mb-3">
+      <div class="form-group">
+        <label for="title">Наименование</label>
+        <input type="text" class="form-control" id="title" formControlName="title">
+      </div>
+      <div class="form-group">
+        <label for="price">Цена</label>
+        <input type="number" class="form-control" id="price" formControlName="price">
+      </div>
+      <div class="form-group">
+        <label for="category">Категория</label>
+        <select class="form-control" id="category" formControlName="product_category">
+          <option *ngFor="let category of categories" [value]="category.id">{{ category.title }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="description">Описание</label>
+        <textarea class="form-control" id="description" formControlName="description"></textarea>
+      </div>
+      <div class="form-group my-4">
+        <label class="px-1" for="image">Снимка</label>
+        <input type="file" class="form-control-file" id="image" (change)="onFileSelect($event)">
+      </div>
+      <button type="submit" class="btn btn-custom-primary">Запис</button>
+    </form>
+    <div *ngIf="successMessage" class="alert alert-success">
+      {{ successMessage }}
+    </div>
+  </div>
+  
