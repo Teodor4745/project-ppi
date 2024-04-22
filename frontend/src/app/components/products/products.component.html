@@ -146,9 +146,9 @@
   <ng-container *ngIf="isLoggedIn">
     <div class="form-group">
       <label for="shippingType">Изберете метод на доставка:</label>
-      <select class="form-control" id="shippingType" [(ngModel)]="order.shippingTypeId" name="shippingType">
+      <!-- <select class="form-control" id="shippingType" [(ngModel)]="order.shippingTypeId" name="shippingType">
         <option *ngFor="let type of shippingTypes" [value]="type.id">{{ type.description }}</option>
-      </select>
+      </select> -->
     </div>
 
     <button class="btn btn-custom-primary mt-5" (click)="makeOrder()">Направи поръчка</button>
@@ -158,8 +158,8 @@
 <p-dialog header="Регистрация" [(visible)]="isRegistrationDialogVisible" [style]="{width: '30vw'}">
   <form (ngSubmit)="registerUser()">
     <!-- Form fields for registration -->
-    <input type="text" [(ngModel)]="newUser.username" name="username" placeholder="Потребителско име" class="form-control" required>
-    <input type="password" [(ngModel)]="newUser.password" name="password" placeholder="Парола" class="form-control" required>
+    <!-- <input type="text" [(ngModel)]="newUser.username" name="username" placeholder="Потребителско име" class="form-control" required>
+    <input type="password" [(ngModel)]="newUser.password" name="password" placeholder="Парола" class="form-control" required> -->
     <button type="submit" class="btn btn-success">Регистрирай се</button>
   </form>
 </p-dialog>
