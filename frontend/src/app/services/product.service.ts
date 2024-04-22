@@ -7,12 +7,12 @@ import { Observable } from 'rxjs';
 })
 export class ProductService {
   private apiUrl = 'http://localhost:8000/api';
-  private apiProdutsUrl = 'http://localhost:8000/api/products';
+  private apiProductsUrl = 'http://localhost:8000/api/products';
 
   constructor(private http: HttpClient) { }
 
   getProducts(filters?: any): Observable<any[]> {
-    return this.http.get<any[]>(this.apiProdutsUrl, { params: filters });
+    return this.http.get<any[]>(this.apiProductsUrl, { params: filters });
   }
 
   getCategories(typeName?: string): Observable<any[]> {
@@ -21,5 +21,17 @@ export class ProductService {
       params = params.set('type_name', typeName);
     }
     return this.http.get<any[]>(`${this.apiUrl}/categories`, { params });
+  }
+
+  createProduct(productData: FormData): Observable<any> {
+    return this.http.post<any>(this.apiProductsUrl, productData);
+  }
+
+  updateProduct(id: number, productData: FormData): Observable<any> {
+    return this.http.post<any>(`${this.apiProductsUrl}/${id}`, productData);
+  }
+
+  deleteProduct(id: number): Observable<any> {
+    return this.http.delete(`${this.apiProductsUrl}/${id}`);
   }
 }

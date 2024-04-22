@@ -31,6 +31,10 @@ Route::group(['prefix' => 'products'], function () {
 
 Route::get('/categories', [ProductController::class, 'getCategories']);
 
+Route::get('/shipping_types', 'ShippingTypeController@index');
+Route::post('/sales', 'SaleController@store')->middleware('auth:sanctum'); 
+
+
 
 
 

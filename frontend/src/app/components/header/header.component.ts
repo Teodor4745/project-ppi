@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { filter } from 'rxjs';
 
@@ -15,6 +15,7 @@ import { filter } from 'rxjs';
 export class HeaderComponent implements OnInit {
   isLoggedIn: boolean = false;
   isAdmin: boolean = false;
+  cartCount = 0;
 
   links = [
     { label: 'Начало', url: '/' },
@@ -25,7 +26,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private authService: AuthService, 
-    private router: Router) {}
+    private router: Router,
+    private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.getUser();
@@ -35,6 +37,7 @@ export class HeaderComponent implements OnInit {
     ).subscribe(() => {
       this.getUser();
     });
+
   }
 
   getUser(): void { 

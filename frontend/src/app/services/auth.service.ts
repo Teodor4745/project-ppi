@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, catchError, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -60,6 +60,22 @@ export class AuthService {
   logout() {
     localStorage.removeItem('token');
     this.userSubject?.next(null);
+  }
+
+
+  register(userData: { first_name: string; lastname: string; email: string; password: string }): Observable<any> {
+    return this.http.post<any>(`${this.apiURL}/register`, userData).pipe(
+      tap(response => {
+        if (response.token) {
+          this.setToken(response.token);
+          this.userSubject?.next(response.user);  
+        }
+      }),
+      catchError(error => {
+        console.error('Registration error:', error);
+        return throwError(() => new Error('Registration failed'));
+      })
+    );
   }
 
 }

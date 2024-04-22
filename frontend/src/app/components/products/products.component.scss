@@ -2,12 +2,93 @@
 
 
 .floating-menu {
-    right: 20px;
-    bottom: 20px;
-    z-index: 1000;
+  right: 20px;
+  top: 80px;
+  z-index: 1000;
+}
+
+.btn-group-vertical > .btn {
+  border: 1px solid #fff;
+}
+
+.dropdown-item {
+  color: black;
+}
+
+.product-img {
+  max-height: 200px;
+  object-fit: cover;
+}
+
+.dialog-img {
+  max-height: 400px;
+  object-fit: contain;
+}
+
+.shopping-cart {
+  transition: 0.5s;
+  position: fixed;
+  border-radius: 50%;
+  background-color: $bg_primary;
+  color: #fff;
+  bottom: 50px;
+  right: 50px;
+  padding: 10px;
+  border: 2px solid #fff;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+
+  i {
+    position: relative;
+    font-size: 20px;
+    top: 3px;
   }
-  
-  .btn-group-vertical > .btn {
-    border: 1px solid #fff;
+
+  &:hover {
+    cursor: pointer;
+    background-color: $bg_secondary;
   }
-  
+
+  .count {
+    position: absolute;
+    right: -15px;
+    top: -50px;
+    border-radius: 50%;
+    background-color: #fff;
+    color: $bg_primary;
+    font-size: 24px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid $bg_primary;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(4);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.shopping-cart .pulse-ring {
+  content: '';
+  position: absolute;
+  top: 25%;
+  left: 28%;
+  width: 20px;
+  height: 20px;
+  background: $bg_primary;
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+  z-index: -5;
+}
