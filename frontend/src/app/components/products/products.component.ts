@@ -34,7 +34,7 @@ export class ProductsComponent implements OnInit {
   isCartDialogVisible: boolean = false;
   isRegistrationDialogVisible: boolean = false; 
 
-  constructor(private productService: ProductService, private authService: AuthService) {}
+  constructor(private productService: ProductService, private authService: AuthService,) {}
 
   ngOnInit(): void {
     this.getUser();
@@ -102,7 +102,7 @@ export class ProductsComponent implements OnInit {
     this.selectedProductType = product.category.type.title === 'Животно' ? 'Животно' : 'Друго';
   }
 
-  getUser(): void { 
+  getUser(): void {
     this.authService.getUser()?.subscribe(user => {
       if (user) {
         this.isLoggedIn = true;

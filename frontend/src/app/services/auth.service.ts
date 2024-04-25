@@ -1,81 +1,79 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private apiURL = 'http://localhost:8000/api';
-  private userSubject: BehaviorSubject<any>|null = null;
-  public user: Observable<any>|null = null;
+  private userSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public user: Observable<any> = this.userSubject.asObservable();
 
-
-  constructor(private http: HttpClient) {
-    this.userSubject = new BehaviorSubject<any>(null);
-    this.user = this.userSubject.asObservable();
+  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadToken();  // Load the token from localStorage only if in browser environment
+    }
   }
 
   login(credentials: { email: string; password: string }): Observable<any> {
     return this.http.post<any>(`${this.apiURL}/login`, credentials).pipe(
       tap(response => {
-        this.setToken(response.token);
-        this.fetchUser().subscribe(); 
+        if (response && response.token) {
+          this.setToken(response.token);
+          this.fetchUser().subscribe();  // Fetch user data immediately after setting token
+        }
       }),
-      catchError(error => {
-        throw error;
-      })
+      catchError(error => throwError(() => error))
     );
   }
 
-  setToken(token: string) {
-    localStorage.setItem('token', token);
+  setToken(token: string): void {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('authToken', token);  // Save the token to localStorage if in browser
+    }
+  }
+
+  loadToken(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        this.fetchUser().subscribe();  // Load user info if token is present
+      }
+    }
   }
 
   getToken(): string | null {
-    return localStorage.getItem('token');
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem('authToken');  // Retrieve the token from localStorage if in browser
+    }
+    return null;
   }
 
   fetchUser(): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.getToken()}`
-    });
-    return this.http.get<any>(`${this.apiURL}/user`, { headers }).pipe(
+    const token = this.getToken();
+    if (!token) return of(null);  // Return null if no token is available
+    return this.http.get<any>(`${this.apiURL}/user`, { headers: { Authorization: `Bearer ${token}` } }).pipe(
       tap(user => {
-        this.userSubject?.next(user); 
+        this.userSubject.next(user);  // Store fetched user info
       }),
-      catchError(error => {
-        throw error;
-      })
+      catchError(error => throwError(() => error))
     );
   }
 
-  getUser() {
-    if (!this.userSubject?.value) {
-      this.fetchUser().subscribe(); 
+  getUser(): Observable<any> {
+    if (!this.userSubject.value) {
+      this.fetchUser().subscribe();  // Ensure user data is fetched if not already loaded
     }
-    return this.user;
+    return this.userSubject.asObservable();  // Return the observable of the actual user data
   }
 
-  logout() {
-    localStorage.removeItem('token');
-    this.userSubject?.next(null);
+  logout(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('authToken');  // Clear the token from localStorage if in browser
+    }
+    this.userSubject.next(null);  // Reset user info
   }
-
-
-  register(userData: { first_name: string; lastname: string; email: string; password: string }): Observable<any> {
-    return this.http.post<any>(`${this.apiURL}/register`, userData).pipe(
-      tap(response => {
-        if (response.token) {
-          this.setToken(response.token);
-          this.userSubject?.next(response.user);  
-        }
-      }),
-      catchError(error => {
-        console.error('Registration error:', error);
-        return throwError(() => new Error('Registration failed'));
-      })
-    );
-  }
-
 }
