@@ -4,15 +4,16 @@ import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { Product } from '../../models/product.model';
 import { AuthService } from '../../services/auth.service';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, DialogModule, ReactiveFormsModule],
+  imports: [CommonModule, DialogModule, ReactiveFormsModule, FormsModule],
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss'],
-  providers: [ProductService, AuthService],
+  providers: [ProductService, AuthService, Router,],
 })
 export class ProductsComponent implements OnInit {
   products: any[] = [];
@@ -34,11 +35,27 @@ export class ProductsComponent implements OnInit {
   isCartDialogVisible: boolean = false;
   isRegistrationDialogVisible: boolean = false; 
 
-  constructor(private productService: ProductService, private authService: AuthService,) {}
+  newUser: any = {
+    username: '',
+    password: '',
+    email: '',
+    first_name: '',
+    lastname: '',
+    address: '',
+    telephone: '',
+  };
+
+  currentUser: any | null = null;
+
+  shippingTypes: any | null = null;
+  isOrderSuccessfull: boolean = false;
+
+  constructor(private productService: ProductService, private authService: AuthService,private router: Router) {}
 
   ngOnInit(): void {
     this.getUser();
     this.loadAnimalCategories(); 
+    this.getShippingTypes();
     this.loadProductsByType('Животно');
     this.loadProductsByType('Аксесоари');
     this.loadProductsByType('Храна');
@@ -105,6 +122,7 @@ export class ProductsComponent implements OnInit {
   getUser(): void {
     this.authService.getUser()?.subscribe(user => {
       if (user) {
+        this.currentUser = user;
         this.isLoggedIn = true;
         if(user.role_name === 'Admin') {
           this.isAdmin = true;
@@ -169,39 +187,52 @@ export class ProductsComponent implements OnInit {
   }
 
   openRegistrationDialog(): void {
-    this.isRegistrationDialogVisible = true; // Make sure you have a flag in your component
+    this.isRegistrationDialogVisible = true; 
   }
 
   registerUser(): void {
-    // this.authService.register(this.newUser).subscribe({
-    //   next: (response:any) => {
-    //     console.log('Registration successful', response);
-    //     this.isLoggedIn = true;
-    //     this.isRegistrationDialogVisible = false;
-    //     this.isCartDialogVisible = true;
-    //   },
-    //   error: (error:any) => {
-    //     console.error('Registration failed', error);
-    //   }
-    // });
+    this.authService.register(this.newUser).subscribe({
+      next: (response: any) => {
+        this.isLoggedIn = true;
+        this.isRegistrationDialogVisible = false;
+        this.isCartDialogVisible = true; 
+        this.getUser();
+      },
+      error: (error: any) => {
+        console.error('Registration failed', error);
+      }
+    });
   }
 
   makeOrder(): void {
-    // const orderData = {
-    //   products: this.order.products.map(p => ({ id: p.id, quantity: p.quantity })),
-    //   userId: this.authService.currentUser.id,  // Ensure you have user data accessible
-    //   shippingTypeId: this.order.shippingTypeId
-    // };
+    const orderData = {
+      products: this.order.products.map((p: any) => ({ id: p.id, quantity: p.quantity })),
+      user_id: this.currentUser.id,  
+      shipping_type_id: this.order.shippingTypeId,
+      office: this.order.office ?? 'няма',
+    };
   
-    // this.productService.placeOrder(orderData).subscribe({
-    //   next: (response) => {
-    //     console.log('Order placed successfully', response);
-    //     // Clear cart and close dialog or show confirmation
-    //   },
-    //   error: (error) => {
-    //     console.error('Order placement failed', error);
-    //   }
-    // });
+    this.productService.placeOrder(orderData).subscribe({
+      next: (response) => {
+        this.isOrderSuccessfull = true;
+        setTimeout(() => {this.router.navigateByUrl('/orders');}, 2000);
+      },
+      error: (error) => {
+        console.error('Order placement failed', error);
+      }
+    });
+  }
+
+  getShippingTypes(): void {
+    this.productService.getShippingTypes().subscribe({
+      next: (response) => {
+        this.shippingTypes = response;
+        console.log(this.shippingTypes);
+      },
+      error: (error) => {
+        console.error('Error when extracting shipping types');
+      }
+    })
   }
   
   

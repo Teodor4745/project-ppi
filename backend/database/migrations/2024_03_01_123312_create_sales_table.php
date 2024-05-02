@@ -12,6 +12,7 @@ class CreateSalesTable extends Migration
             $table->id();
             $table->timestamp('date');
             $table->unsignedBigInteger('shipping_type_id')->references('id')->on('shipping_types')->onDelete('cascade');
+            $table->string('office');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

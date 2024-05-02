@@ -7,7 +7,7 @@ import { AboutComponent } from './components/about/about.component';
 import { ProductsComponent } from './components/products/products.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { LoginComponent } from './components/login/login.component';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
 @Component({
@@ -27,7 +27,8 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
   ],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  providers: [Router]
 })
 export class AppComponent {
   title = 'frontend';

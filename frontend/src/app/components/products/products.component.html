@@ -142,25 +142,49 @@
       <button class="btn btn-danger" (click)="removeItemFromCart(i)">Премахни</button>
     </div>
   </div>
-  <button *ngIf="!isLoggedIn" class="btn btn-primary" (click)="openRegistrationDialog()">Регистрация</button>
+  <button *ngIf="!isLoggedIn" class="btn btn-custom-primary mt-3" (click)="openRegistrationDialog()">Регистрация</button>
   <ng-container *ngIf="isLoggedIn">
-    <div class="form-group">
+    <div class="form-group mt-4">
       <label for="shippingType">Изберете метод на доставка:</label>
-      <!-- <select class="form-control" id="shippingType" [(ngModel)]="order.shippingTypeId" name="shippingType">
-        <option *ngFor="let type of shippingTypes" [value]="type.id">{{ type.description }}</option>
-      </select> -->
+      <select class="form-control" id="shippingType" [(ngModel)]="order.shippingTypeId" name="shippingType">
+        <option *ngFor="let type of shippingTypes" [value]="type.id">{{ type.title }}</option>
+      </select>
+    </div>
+    <div class="form-group mt-4" *ngIf="order.shippingTypeId == 1">
+      <label for="office">Изберете офис:</label>
+      <select class="form-control mt-4" id="office" [(ngModel)]="order.office" name="office">
+        <option [value]="'Еконт офис 1'">{{ 'Еконт офис 1' }}</option>
+        <option [value]="'Еконт офис 2'">{{ 'Еконт офис 2' }}</option>
+        <option [value]="'Еконт офис 3'">{{ 'Еконт офис 3' }}</option>
+      </select>
+    </div>
+    <div class="form-group mt-4" *ngIf="order.shippingTypeId == 2">
+      <label for="office">Изберете офис:</label>
+      <select class="form-control mt-4" id="office" [(ngModel)]="order.office" name="office">
+        <option [value]="'Еконт офис 1'">{{ 'Спиди офис 1' }}</option>
+        <option [value]="'Еконт офис 2'">{{ 'Спиди офис 2' }}</option>
+        <option [value]="'Еконт офис 3'">{{ 'Спиди офис 3' }}</option>
+      </select>
     </div>
 
     <button class="btn btn-custom-primary mt-5" (click)="makeOrder()">Направи поръчка</button>
+    
+    <div *ngIf="isOrderSuccessfull" class="alert alert-success mt-3">
+      Успешно направена поръчка!
+    </div>
   </ng-container>
 </p-dialog>
 
 <p-dialog header="Регистрация" [(visible)]="isRegistrationDialogVisible" [style]="{width: '30vw'}">
   <form (ngSubmit)="registerUser()">
-    <!-- Form fields for registration -->
-    <!-- <input type="text" [(ngModel)]="newUser.username" name="username" placeholder="Потребителско име" class="form-control" required>
-    <input type="password" [(ngModel)]="newUser.password" name="password" placeholder="Парола" class="form-control" required> -->
-    <button type="submit" class="btn btn-success">Регистрирай се</button>
+    <input type="text" [(ngModel)]="newUser.first_name" name="username" placeholder="Име" class="form-control my-2" required>
+    <input type="text" [(ngModel)]="newUser.last_name" name="username" placeholder="Фамилия" class="form-control my-2" required>
+    <input type="text" [(ngModel)]="newUser.username" name="username" placeholder="Потребителско име" class="form-control my-2" required>
+    <input type="text" [(ngModel)]="newUser.email" name="email" placeholder="Имейл" class="form-control my-2" required>
+    <input type="password" [(ngModel)]="newUser.password" name="password" placeholder="Парола" class="form-control my-2" required>
+    <input type="text" [(ngModel)]="newUser.telephone" name="username" placeholder="Телефон" class="form-control my-2">
+    <input type="text" [(ngModel)]="newUser.address" name="username" placeholder="Адрес" class="form-control my-2">
+    <button type="submit" class="btn btn-custom-primary">Регистрирай се</button>
   </form>
 </p-dialog>
 

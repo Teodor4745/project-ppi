@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthService } from '../../services/auth.service'; 
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { NgZone } from '@angular/core';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,7 @@ export class LoginComponent {
   loginForm: FormGroup = new FormGroup('');
   loginFailed: boolean = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private zone: NgZone) {
     this.createForm();
   }
 
@@ -34,7 +35,9 @@ export class LoginComponent {
         next: (response) => {
           this.authService.setToken(response.token);
           this.loginFailed = false;
-          this.router.navigateByUrl('/');
+          this.zone.run(() => {
+            this.router.navigate(['/']);
+          });
         },
         error: (error) => {
           console.error('Login failed', error);

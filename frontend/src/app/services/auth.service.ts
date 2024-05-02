@@ -14,7 +14,7 @@ export class AuthService {
 
   constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {
     if (isPlatformBrowser(this.platformId)) {
-      this.loadToken();  // Load the token from localStorage only if in browser environment
+      this.loadToken();  
     }
   }
 
@@ -54,10 +54,10 @@ export class AuthService {
 
   fetchUser(): Observable<any> {
     const token = this.getToken();
-    if (!token) return of(null);  // Return null if no token is available
+    if (!token) return of(null);  
     return this.http.get<any>(`${this.apiURL}/user`, { headers: { Authorization: `Bearer ${token}` } }).pipe(
       tap(user => {
-        this.userSubject.next(user);  // Store fetched user info
+        this.userSubject.next(user);  
       }),
       catchError(error => throwError(() => error))
     );
@@ -65,15 +65,27 @@ export class AuthService {
 
   getUser(): Observable<any> {
     if (!this.userSubject.value) {
-      this.fetchUser().subscribe();  // Ensure user data is fetched if not already loaded
+      this.fetchUser().subscribe();  
     }
-    return this.userSubject.asObservable();  // Return the observable of the actual user data
+    return this.userSubject.asObservable();  
   }
 
   logout(): void {
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem('authToken');  // Clear the token from localStorage if in browser
+      localStorage.removeItem('authToken');  
     }
-    this.userSubject.next(null);  // Reset user info
+    this.userSubject.next(null);  
+  }
+
+  register(userDetails: any): Observable<any> {
+    return this.http.post<any>(`${this.apiURL}/register`, userDetails).pipe(
+      tap(response => {
+        if (response && response.token) {
+          this.setToken(response.token);
+          this.fetchUser().subscribe();  // Fetch user data immediately after setting token
+        }
+      }),
+      catchError(error => throwError(() => error))
+    );
   }
 }

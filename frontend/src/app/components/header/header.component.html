@@ -1,7 +1,7 @@
   <header class="bg-primary-custom">
       <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light">
-          <a class="navbar-brand" routerLink="/">
+          <a class="navbar-brand">
             <img src="../../../assets/img/logo.png" alt="">
           </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,21 +9,21 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="navbar-nav ms-auto">
-              <li class="nav-item px-2" *ngFor="let link of links">
-                <a class="nav-link" routerLink="{{ link.url }}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">{{ link.label }}</a>
-              </li>
-              <li *ngIf="!isLoggedIn" class="nav-item px-2">
-                <a class="nav-link" routerLink="/login" routerLinkActive="active">Вход</a>
+              <!-- <li class="nav-item px-2" *ngFor="let link of links">
+                <a class="nav-link" (click)="navigate(link.url)">{{ link.label }}</a>
+              </li>     -->
+              <li [class.d-none]="!isLoggedIn && isAdmin" class="nav-item px-2">
+                <a class="nav-link" (click)="navigate('/orders')">Поръчки</a>
               </li>    
-              <li *ngIf="isLoggedIn && !isAdmin" class="nav-item px-2">
-                <a class="nav-link" routerLink="/orders" routerLinkActive="active">Поръчки</a>
-              </li>    
-              <li *ngIf="isAdmin" class="nav-item px-2">
-                <a class="nav-link" routerLink="/panel" routerLinkActive="active">Панел</a>
+              <li [class.d-none]="!isAdmin" class="nav-item px-2">
+                <a class="nav-link" (click)="navigate('/panel')">Панел</a>
               </li>
-              <li *ngIf="isLoggedIn" class="nav-item px-2">
+              <li [class.d-none]="isLoggedIn" class="nav-item px-2">
+                <a class="nav-link" (click)="navigate('/login')">Вход</a>
+              </li>
+              <li [class.d-none]="!isLoggedIn" class="nav-item px-2">
                 <a class="nav-link" (click)="logOut()">Изход</a>
-              </li>    
+              </li>
             </ul>
           </div>
         </nav>
