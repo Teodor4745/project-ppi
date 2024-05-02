@@ -10,6 +10,7 @@ class Sale extends Model
         'date',
         'shipping_type_id',
         'user_id',
+        'office',
     ];
 
     public function products()

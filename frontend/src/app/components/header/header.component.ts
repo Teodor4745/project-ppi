@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
   cartCount = 0;
 
   links = [
-    { label: 'Начало', url: '/' },
+    { label: 'Начало', url: '/home' },
     { label: 'За нас', url: '/about' },
     { label: 'Продукти', url: '/products' },
     { label: 'Контакти', url: '/contact' },
@@ -66,8 +66,6 @@ export class HeaderComponent implements OnInit {
   }
 
   navigate(url: string): void {
-    this.zone.run(() => {
       this.router.navigateByUrl(url);
-    });
   }
 }

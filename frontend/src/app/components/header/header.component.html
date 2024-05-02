@@ -10,16 +10,16 @@
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="navbar-nav ms-auto">
               <li class="nav-item px-2" *ngFor="let link of links">
-                <a class="nav-link" (click)="navigate(link.url)">{{ link.label }}</a>
+                <a class="nav-link" [href]="link.url">{{ link.label }}</a>
               </li>    
               <li [class.d-none]="!isLoggedIn && isAdmin" class="nav-item px-2">
-                <a class="nav-link" (click)="navigate('/orders')">Поръчки</a>
+                <a class="nav-link" [href]="'/orders'">Поръчки</a>
               </li>    
               <li [class.d-none]="!isAdmin" class="nav-item px-2">
-                <a class="nav-link" (click)="navigate('/panel')">Панел</a>
+                <a class="nav-link" [href]="'/panel'">Панел</a>
               </li>
               <li [class.d-none]="isLoggedIn" class="nav-item px-2">
-                <a class="nav-link" (click)="navigate('/login')">Вход</a>
+                <a class="nav-link" [href]="'/login'">Вход</a>
               </li>
               <li [class.d-none]="!isLoggedIn" class="nav-item px-2">
                 <a class="nav-link" (click)="logOut()">Изход</a>

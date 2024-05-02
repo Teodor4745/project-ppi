@@ -5,13 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Sale;
 use App\Models\SaleProduct;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Sale::with(['user'])->get();
+        $user = $request->user();
+
+        if ($user->role->role_name === 'Admin') {
+            $orders = Sale::with(['user', 'products'])->get();
+        } else {
+            $orders = Sale::with(['user', 'products'])
+                          ->where('user_id', $user->id)
+                          ->get();
+        }
+
         return response()->json(['orders' => $orders]);
     }
 
