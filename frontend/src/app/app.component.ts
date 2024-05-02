@@ -31,5 +31,5 @@ import { HttpClientModule } from '@angular/common/http';
   providers: [Router]
 })
 export class AppComponent {
-  title = 'frontend';
+  title = 'Pawfect Companions';
 }

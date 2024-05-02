@@ -34,11 +34,11 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.getUser();
 
-    // this.router.events.pipe(
-    //   filter(event => event instanceof NavigationEnd)
-    // ).subscribe(() => {
-    //   this.getUser();
-    // });
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.getUser();
+    });
 
   }
 

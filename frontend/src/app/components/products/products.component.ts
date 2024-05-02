@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { Product } from '../../models/product.model';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NavigationEnd, NavigationError, Router } from '@angular/router';
 
 @Component({
   selector: 'app-products',
@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./products.component.scss'],
   providers: [ProductService, AuthService, Router,],
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent implements OnInit, OnDestroy {
   products: any[] = [];
   animals: any[] = [];
   foods: any[] = [];
@@ -227,7 +227,6 @@ export class ProductsComponent implements OnInit {
     this.productService.getShippingTypes().subscribe({
       next: (response) => {
         this.shippingTypes = response;
-        console.log(this.shippingTypes);
       },
       error: (error) => {
         console.error('Error when extracting shipping types');
@@ -236,7 +235,9 @@ export class ProductsComponent implements OnInit {
   }
   
   
-  
+  ngOnDestroy(): void {
+    
+  }
   
   
 }

@@ -9,9 +9,9 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="navbar-nav ms-auto">
-              <!-- <li class="nav-item px-2" *ngFor="let link of links">
+              <li class="nav-item px-2" *ngFor="let link of links">
                 <a class="nav-link" (click)="navigate(link.url)">{{ link.label }}</a>
-              </li>     -->
+              </li>    
               <li [class.d-none]="!isLoggedIn && isAdmin" class="nav-item px-2">
                 <a class="nav-link" (click)="navigate('/orders')">Поръчки</a>
               </li>    
