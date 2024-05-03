@@ -2,7 +2,7 @@
     <div id="top"></div>
     <mat-tab-group color="primary" [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="onTabChange($event)">
       <mat-tab label="Домашни любимци">
-        <div class="row w-100 px-1">
+        <div class="row w-100 px-1 mx-auto">
           <div class="col-lg-3 mt-4 px-2 d-flex align-items-center">
             <div class="dropdown">
               <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -19,7 +19,7 @@
             </p>
           </div>
         </div>
-        <div class="row w-100 px-1">
+        <div class="row w-100 px-1 mx-auto">
           <div class="col-12 col-md-6 col-xl-3 my-4 px-2" *ngFor="let animal of animals">
             <div class="card w-100" style="width: 18rem;">
               <img class="w-100" class="product-img" src="http://localhost:8000/{{animal.image}}" alt="Снимката не беше заредена">
@@ -35,14 +35,14 @@
               </div>
             </div>  
           </div>
-          <div class="alert alert-warning d-flex align-items-center mt-3" role="alert" *ngIf="!this.animals.length">
+          <div class="alert alert-warning d-flex align-items-center mt-3 w-100 mx-auto" role="alert" *ngIf="!this.animals.length">
             <i class="fa-solid fa-triangle-exclamation me-2"></i>
             Няма намерени резултати
           </div>
         </div>
       </mat-tab>
       <mat-tab label="Храна">
-        <div class="row w-100 px-1">
+        <div class="row w-100 px-1 mx-auto">
           <div class="col-12 col-md-6 col-xl-3 my-4 px-2" *ngFor="let food of foods">
             <div class="card w-100" style="width: 18rem;">
               <img class="w-100" class="product-img" src="http://localhost:8000/{{food.image}}" alt="Снимката не беше заредена">
@@ -57,14 +57,14 @@
                 </div>
               </div>
             </div>  
-          </div><div class="alert alert-warning d-flex align-items-center mt-3" role="alert" *ngIf="!this.foods.length">
+          </div><div class="alert alert-warning d-flex align-items-center mt-3 w-100" role="alert" *ngIf="!this.foods.length">
             <i class="fa-solid fa-triangle-exclamation me-2"></i>
             Няма намерени резултати
           </div>
         </div>
       </mat-tab>
       <mat-tab label="Аксесоари">
-        <div class="row w-100 px-1">
+        <div class="row w-100 px-1 mx-auto">
           <div class="col-12 col-md-6 col-xl-3 my-4 px-2" *ngFor="let accessory of accessories">
             <div class="card w-100" style="width: 18rem;">
               <img class="w-100" class="product-img" src="http://localhost:8000/{{accessory.image}}" alt="Снимката не беше заредена">
@@ -81,7 +81,7 @@
             </div>  
           </div>
         </div>
-        <div class="alert alert-warning d-flex align-items-center my-3" role="alert" *ngIf="!this.accessories.length">
+        <div class="alert alert-warning d-flex align-items-center my-3 w-100" role="alert" *ngIf="!this.accessories.length">
           <i class="fa-solid fa-triangle-exclamation me-2"></i>
           Няма намерени резултати
         </div>
