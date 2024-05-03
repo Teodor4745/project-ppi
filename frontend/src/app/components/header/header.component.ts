@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
   links = [
     { label: 'Начало', url: '/home' },
     { label: 'За нас', url: '/about' },
-    { label: 'Продукти', url: '/products' },
+    { label: 'Животни и продукти', url: '/products' },
     { label: 'Контакти', url: '/contact' },
   ];
 

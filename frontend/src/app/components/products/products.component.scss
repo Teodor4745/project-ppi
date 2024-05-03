@@ -1,9 +1,11 @@
 @import '../../../styles.scss';
 
 
+
+
 .floating-menu {
   right: 20px;
-  top: 80px;
+  bottom: 50px;
   z-index: 1000;
 
   @media screen and (max-width:992px) {
@@ -34,10 +36,10 @@
   transition: 0.5s;
   position: fixed;
   border-radius: 50%;
-  background-color: $bg_primary;
+  background-color: #ccc;
   color: #fff;
-  bottom: 50px;
-  right: 50px;
+  bottom: 130px;
+  right: 37px;
   padding: 10px;
   border: 2px solid #fff;
   width: 50px;
@@ -92,7 +94,7 @@
   left: 28%;
   width: 20px;
   height: 20px;
-  background: $bg_primary;
+  background: #ccc;
   border-radius: 50%;
   animation: pulse 1.5s infinite;
   z-index: -5;
@@ -101,3 +103,13 @@
 #shippingType {
   color: black;
 }
+
+.floating-menu.visible {
+  display: block;
+}
+.floating-menu {
+  display: none;
+}
+
+
+

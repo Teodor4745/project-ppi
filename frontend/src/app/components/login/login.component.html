@@ -12,14 +12,20 @@
                 <label for="password" class="form-label">Парола:</label>
                 <input type="password" class="form-control" id="password" formControlName="password">
               </div>
-              <button type="submit" class="btn btn-custom-primary">Login</button>
+              <button type="submit" class="btn btn-custom-primary">Влез</button>
               <!-- <button type="button" class="btn btn-link" (click)="goToRegistration()">Register</button> -->
             </form>
           </div>
         </div>
         <div class="alert alert-danger d-flex align-items-center mt-3" role="alert" *ngIf="loginFailed">
-            <i class="fa-solid fa-triangle-exclamation me-2"></i>
-            Грешна поща или парола!
+          <i class="fa-solid fa-triangle-exclamation me-2"></i>
+          Грешна поща или парола!
+        </div>
+        <div class="row mt-5">
+          <div class="register text-center">
+            <h2>Нямаш акаунт? Регистрирай се!</h2>
+            <button class="btn-custom-primary" routerLink="/register">Регистрирай се тук</button>
           </div>
-      </div>    
+        </div>
+      </div> 
 </section>

@@ -1,19 +1,21 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { Product } from '../../models/product.model';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NavigationEnd, NavigationError, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, NavigationError, Router } from '@angular/router';
+import {  MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, DialogModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, DialogModule, ReactiveFormsModule, FormsModule, MatTabsModule],
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss'],
   providers: [ProductService, AuthService, Router,],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ProductsComponent implements OnInit, OnDestroy {
   products: any[] = [];
@@ -49,10 +51,32 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   shippingTypes: any | null = null;
   isOrderSuccessfull: boolean = false;
+  showScrollToTopButton: boolean = false;
 
-  constructor(private productService: ProductService, private authService: AuthService,private router: Router) {}
+  selectedTabIndex: number = 0;
+
+  constructor(private productService: ProductService, private authService: AuthService,private router: Router, private route: ActivatedRoute,) {}
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll() {
+    const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const lowerHeightLimit = 0; 
+    const upperHeightLimit = 5000; 
+
+    if (scrollPosition > lowerHeightLimit && scrollPosition < upperHeightLimit) {
+      this.showScrollToTopButton = true;
+    } else {
+      this.showScrollToTopButton = false;
+    }
+  }
+
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      if (params['tab']) {
+        this.selectedTabIndex = Number(params['tab']);
+      }
+    });
+
     this.getUser();
     this.loadAnimalCategories(); 
     this.getShippingTypes();
@@ -160,10 +184,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
     }
     this.showSuccessMessage = true;
     setTimeout(() => this.showSuccessMessage = false, 2000);
+    this.calculateTotalPrice();
+    this.calculateTotalQuantity();
   }
   
   increaseQuantity(index: number): void {
     this.order.products[index].quantity = (this.order.products[index].quantity || 1) + 1;
+    this.calculateTotalPrice();
+    this.calculateTotalQuantity();
   }
   
   decreaseQuantity(index: number): void {
@@ -174,12 +202,17 @@ export class ProductsComponent implements OnInit, OnDestroy {
         this.removeItemFromCart(index);
       }
     }
+
+    this.calculateTotalPrice();
+    this.calculateTotalQuantity();
   }
   
   removeItemFromCart(index: number): void {
     if(confirm('Сигурни ли сте че искате да премахнете този продукт от количката?')) {
       this.order.products.splice(index, 1);
     } 
+    this.calculateTotalPrice();
+    this.calculateTotalQuantity();
   }
 
   goToOrderBtn(): void {
@@ -233,11 +266,36 @@ export class ProductsComponent implements OnInit, OnDestroy {
       }
     })
   }
+
+  calculateTotalPrice(): void {
+    let total = 0;
+    this.order.products.forEach((product: any) => {
+      total += product.price * product.quantity;
+    });
+    this.order.totalPrice = total.toFixed(2);  
+  }
+
+  calculateTotalQuantity(): void {
+    let total = 0;
+    this.order.products.forEach((product: any) => {
+      total += product.quantity;
+    });
+    this.order.totalQuantity = total;
+  }
+
+  onTabChange(event: any): void {
+    const tabIndex = event.index;
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { tab: tabIndex },
+      queryParamsHandling: 'merge', 
+    });
+  }
+  
   
   
   ngOnDestroy(): void {
     
   }
-  
-  
+
 }

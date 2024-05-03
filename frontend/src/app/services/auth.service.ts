@@ -23,7 +23,7 @@ export class AuthService {
       tap(response => {
         if (response && response.token) {
           this.setToken(response.token);
-          this.fetchUser().subscribe();  // Fetch user data immediately after setting token
+          this.fetchUser().subscribe();  
         }
       }),
       catchError(error => throwError(() => error))
@@ -32,7 +32,7 @@ export class AuthService {
 
   setToken(token: string): void {
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem('authToken', token);  // Save the token to localStorage if in browser
+      localStorage.setItem('authToken', token);  
     }
   }
 
@@ -40,14 +40,14 @@ export class AuthService {
     if (isPlatformBrowser(this.platformId)) {
       const token = localStorage.getItem('authToken');
       if (token) {
-        this.fetchUser().subscribe();  // Load user info if token is present
+        this.fetchUser().subscribe(); 
       }
     }
   }
 
   getToken(): string | null {
     if (isPlatformBrowser(this.platformId)) {
-      return localStorage.getItem('authToken');  // Retrieve the token from localStorage if in browser
+      return localStorage.getItem('authToken');  
     }
     return null;
   }
@@ -82,7 +82,7 @@ export class AuthService {
       tap(response => {
         if (response && response.token) {
           this.setToken(response.token);
-          this.fetchUser().subscribe();  // Fetch user data immediately after setting token
+          this.fetchUser().subscribe();  
         }
       }),
       catchError(error => throwError(() => error))

@@ -46,7 +46,7 @@ export class OrdersComponent {
 
   calculatePrice(products: any[]) {
     return products.reduce((total, product) => {
-      return total + (product.price * (product.quantity || 1));
+      return total + (product.price * (product.pivot.quantity || 1));
     }, 0);
   }
 }

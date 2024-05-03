@@ -24,7 +24,7 @@
             </div>
             <div class="col-lg-4 my-4">
                 <div class="box">
-                    <a routerLink="/products">
+                    <a [routerLink]="['/products']" [queryParams]="{tab: 1}">
                         <h3 class="p-3">
                             Храна
                             <i class="fa-solid fa-bowl-food"></i>
@@ -36,12 +36,12 @@
                     </a>
                 </div>
                 <div class="btn-row text-center mt-3">
-                    <a class="btn btn-custom-primary" routerLink="/products">Виж повече</a>
+                    <a class="btn btn-custom-primary" [routerLink]="['/products']" [queryParams]="{tab: 1}">Виж повече</a>
                 </div>
             </div>
             <div class="col-lg-4 my-4">
                 <div class="box">
-                    <a routerLink="/products">
+                    <a [routerLink]="['/products']" [queryParams]="{tab: 2}">
                         <h3 class="p-3">
                             Аксесоари
                             <i class="fa-solid fa-futbol"></i>
@@ -53,7 +53,7 @@
                     </a>
                 </div>
                 <div class="btn-row text-center mt-3">
-                    <a class="btn btn-custom-primary" routerLink="/products">Виж повече</a>
+                    <a class="btn btn-custom-primary" [routerLink]="['/products']" [queryParams]="{tab: 2}">Виж повече</a>
                 </div>
             </div>
         </div>

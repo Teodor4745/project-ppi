@@ -10,7 +10,7 @@
                     Можете да се свържете с нас и на посочените контакти:
                 </h3>
 
-                <div class="row mt-3 w-100">
+                <div class="row mt-3 w-100 text-center">
                     <div class="col-lg-6">
                         <p class="fs-4">
                             <i class="fa-solid fa-envelope"></i> 
@@ -33,11 +33,11 @@
                 <div class="form-wrapper">
                     <h2 class="text-uppercase text-center text-white mb-4">Изпратете вашето запитване</h2>
                     <form>
-                        <div class="form-floating my-3">
+                        <div class="form-floating my-3" *ngIf="!isLoggedIn">
                             <input type="text" class="form-control" id="name" placeholder="Иван Иванов">
                             <label for="name">Име:</label>
                         </div>
-                        <div class="form-floating my-3">
+                        <div class="form-floating my-3" *ngIf="!isLoggedIn">
                             <input type="email" class="form-control" id="email" placeholder="example@email.com">
                             <label for="exampleInputEmail1">Електронна поща:</label>
                         </div>

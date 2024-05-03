@@ -18,7 +18,6 @@ class ShippingTypesTableSeeder extends Seeder
             $shippingTypes = [
                 ['title' => 'Еконт'],
                 ['title' => 'Спиди'],
-                ['title' => 'Лично предаване'],
             ];
     
             DB::table('shipping_types')->insert($shippingTypes);

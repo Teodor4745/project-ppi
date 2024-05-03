@@ -1,7 +1,7 @@
-<div class="container">
+<div class="container my-5">
   <h2 class="text-center mt-2">Поръчки</h2>
 
-  <table class="table my-4">
+  <table class="table my-4" *ngIf="orders.length">
     <thead>
       <tr>
         <th scope="col">№</th>
@@ -11,7 +11,7 @@
         <th scope="col">Цена</th>
       </tr>
     </thead>
-    <tbody *ngIf="orders.length">
+    <tbody>
       <tr *ngFor="let order of orders">
         <td>
           {{order.id}}
@@ -33,5 +33,10 @@
       </tr>
     </tbody>
   </table>
+
+  <div class="alert alert-warning d-flex align-items-center my-5" role="alert" *ngIf="!this.orders.length">
+    <i class="fa-solid fa-triangle-exclamation me-2"></i>
+    Няма намерени резултати
+  </div>
 </div>
 
