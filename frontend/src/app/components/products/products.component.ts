@@ -55,6 +55,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   selectedTabIndex: number = 0;
 
+  loading: boolean = false;
+
+  registerFailed: boolean = false;
+  registerSuccess: boolean = false;
+
   constructor(private productService: ProductService, private authService: AuthService,private router: Router, private route: ActivatedRoute,) {}
   @HostListener('window:scroll', ['$event'])
   onWindowScroll() {
@@ -86,6 +91,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   loadProductsByType(typeName: string): void {
+    this.loading = true;
     this.productService.getProducts({type_name: typeName}).subscribe({
       next: (data) => {
         if (typeName === 'Животно') {
@@ -95,9 +101,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
         } else if (typeName === 'Аксесоари') {
           this.accessories = data;
         }
+        this.loading = false;
       },
       error: (error) => {
         console.error('Проблем при извличане на продуктите!', error);
+        this.loading = false;
       }
     });
   }
@@ -224,14 +232,20 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   registerUser(): void {
+    this.registerFailed = false;
+    this.registerSuccess = false;
     this.authService.register(this.newUser).subscribe({
       next: (response: any) => {
-        this.isLoggedIn = true;
-        this.isRegistrationDialogVisible = false;
-        this.isCartDialogVisible = true; 
-        this.getUser();
+        this.registerSuccess = true;
+        setTimeout(() => {
+          this.isLoggedIn = true;
+          this.getUser();
+          this.isRegistrationDialogVisible = false;
+          this.isCartDialogVisible = true; 
+        }, 2000);
       },
       error: (error: any) => {
+        this.registerFailed = true;
         console.error('Registration failed', error);
       }
     });

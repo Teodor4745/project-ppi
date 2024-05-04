@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" style="min-height: 600px;">
     <div id="top"></div>
     <mat-tab-group color="primary" [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="onTabChange($event)">
       <mat-tab label="Домашни любимци">
@@ -21,7 +21,7 @@
         </div>
         <div class="row w-100 px-1 mx-auto">
           <div class="col-12 col-md-6 col-xl-3 my-4 px-2" *ngFor="let animal of animals">
-            <div class="card w-100" style="width: 18rem;">
+            <div class="card w-100 h-100" style="width: 18rem;">
               <img class="w-100" class="product-img" src="http://localhost:8000/{{animal.image}}" alt="Снимката не беше заредена">
               <div class="card-body d-flex flex-column justify-content-between">
                 <h5 class="card-title mb-1 fs-6">{{ animal.title ?? 'Домашен любимец' }}</h5>
@@ -44,7 +44,7 @@
       <mat-tab label="Храна">
         <div class="row w-100 px-1 mx-auto">
           <div class="col-12 col-md-6 col-xl-3 my-4 px-2" *ngFor="let food of foods">
-            <div class="card w-100" style="width: 18rem;">
+            <div class="card w-100 h-100" style="width: 18rem;">
               <img class="w-100" class="product-img" src="http://localhost:8000/{{food.image}}" alt="Снимката не беше заредена">
               <div class="card-body d-flex flex-column justify-content-between">
                 <h5 class="card-title mb-1 fs-6">{{ food.title ?? 'Храна' }}</h5>
@@ -66,7 +66,7 @@
       <mat-tab label="Аксесоари">
         <div class="row w-100 px-1 mx-auto">
           <div class="col-12 col-md-6 col-xl-3 my-4 px-2" *ngFor="let accessory of accessories">
-            <div class="card w-100" style="width: 18rem;">
+            <div class="card w-100 h-100" style="width: 18rem;">
               <img class="w-100" class="product-img" src="http://localhost:8000/{{accessory.image}}" alt="Снимката не беше заредена">
               <div class="card-body d-flex flex-column justify-content-between">
                 <h5 class="card-title mb-1 fs-6">{{ accessory.title ?? 'Аксесоар' }}</h5>
@@ -95,7 +95,7 @@
   </div>
 </div>
 
-<p-dialog [header]="this.selectedProduct?.title" [(visible)]="isProductSelected" [style]="{width: '50vw'}">
+<p-dialog [header]="this.selectedProduct?.title" [(visible)]="isProductSelected" [style]="{width: '80vw'}">
   <div class="text-center">
     <img class="w-100" class="dialog-img w-100" [src]="this.selectedProductImage" alt="Снимката не е налична">
   </div>
@@ -134,13 +134,13 @@
 
 <p-dialog header="Количка" [(visible)]="isCartDialogVisible" [style]="{width: '80vw'}">
   <div *ngFor="let item of order.products; let i = index">
-    <div class="d-flex justify-content-between align-items-center">
-      <img [src]="item.image" alt="{{item.title}}" style="width: 50px; height: auto;">
-      <span>{{ item.title }}</span>
+    <div class="d-flex justify-content-between align-items-center product-row">
+      <img [src]="'http://localhost:8000/' + item.image" alt="{{item.title}}" style="width: 50px; height: auto;">
+      <span class="m-2">{{ item.title }}</span>
       <span>{{ item.price }} лв.</span>
-      <button class="btn btn-custom-primary" (click)="increaseQuantity(i)">+</button>
+      <button class="btn btn-custom-primary m-2" (click)="increaseQuantity(i)">+</button>
       <span>{{ item.quantity }}</span>
-      <button class="btn btn-custom-primary" (click)="decreaseQuantity(i)">-</button>
+      <button class="btn btn-custom-primary m-2" (click)="decreaseQuantity(i)">-</button>
       <button class="btn btn-danger" (click)="removeItemFromCart(i)">Премахни</button>
     </div>
   </div>
@@ -155,17 +155,17 @@
     <div class="form-group mt-4" *ngIf="order.shippingTypeId == 1">
       <label for="office">Изберете офис:</label>
       <select class="form-control" id="office" [(ngModel)]="order.office" name="office">
-        <option [value]="'Еконт офис 1'">{{ 'Еконт офис 1' }}</option>
-        <option [value]="'Еконт офис 2'">{{ 'Еконт офис 2' }}</option>
-        <option [value]="'Еконт офис 3'">{{ 'Еконт офис 3' }}</option>
+        <option [value]="'Eконт офис Варна Победа'">{{ 'Eконт офис Варна Победа' }}</option>
+        <option [value]="'Еконт офис Варна Чайка'">{{ 'Еконт офис Варна Чайка' }}</option>
+        <option [value]="'Еконт Експрес офис Варна - Западна промишлена зона'">{{ 'Еконт Експрес офис Варна - Западна промишлена зона' }}</option>
       </select>
     </div>
     <div class="form-group mt-4" *ngIf="order.shippingTypeId == 2">
       <label for="office">Изберете офис:</label>
       <select class="form-control" id="office" [(ngModel)]="order.office" name="office">
-        <option [value]="'Еконт офис 1'">{{ 'Спиди офис 1' }}</option>
-        <option [value]="'Еконт офис 2'">{{ 'Спиди офис 2' }}</option>
-        <option [value]="'Еконт офис 3'">{{ 'Спиди офис 3' }}</option>
+        <option [value]="'Еконт офис 1'">{{ 'СПИДИ Варна - МЛАДОСТ (ЖК), ХАН СЕВАР 5' }}</option>
+        <option [value]="'Еконт офис 2'">{{ 'СПИДИ Варна - ДРАГОМАН' }}</option>
+        <option [value]="'Еконт офис 3'">{{ 'СПИДИ Варна - Кауфланд Бриз ' }}</option>
       </select>
     </div>
 
@@ -180,16 +180,32 @@
   </ng-container>
 </p-dialog>
 
-<p-dialog header="Регистрация" [(visible)]="isRegistrationDialogVisible" [style]="{width: '30vw'}">
+<p-dialog header="Регистрация" [(visible)]="isRegistrationDialogVisible" [style]="{width: '80vw'}">
   <form (ngSubmit)="registerUser()">
     <input type="text" [(ngModel)]="newUser.first_name" name="username" placeholder="Име" class="form-control my-2" required>
     <input type="text" [(ngModel)]="newUser.last_name" name="username" placeholder="Фамилия" class="form-control my-2" required>
     <input type="text" [(ngModel)]="newUser.username" name="username" placeholder="Потребителско име" class="form-control my-2" required>
     <input type="text" [(ngModel)]="newUser.email" name="email" placeholder="Имейл" class="form-control my-2" required>
     <input type="password" [(ngModel)]="newUser.password" name="password" placeholder="Парола" class="form-control my-2" required>
+    <input type="password" placeholder="Повтори парола" class="form-control my-2" required>
     <input type="text" [(ngModel)]="newUser.telephone" name="username" placeholder="Телефон" class="form-control my-2">
     <input type="text" [(ngModel)]="newUser.address" name="username" placeholder="Адрес" class="form-control my-2">
     <button type="submit" class="btn btn-custom-primary">Регистрирай се</button>
   </form>
+
+  <div class="alert alert-danger d-flex align-items-center mt-3" role="alert" *ngIf="registerFailed">
+    <i class="fa-solid fa-triangle-exclamation me-2"></i>
+    Грешка при регистрация! Моля, проверете полетата отново или опитайте по-късно!
+  </div>
+
+  <div class="alert alert-success d-flex align-items-center mt-3" role="alert" *ngIf="registerSuccess">
+    <i class="fa-solid fa-triangle-exclamation me-2"></i>
+    Успешно направена регистрация!
+  </div>
 </p-dialog>
 
+<div *ngIf="loading" class="spinner-overlay">
+  <div class="spinner-border" role="status" style="border-color: #627254; border-right-color: transparent;">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>

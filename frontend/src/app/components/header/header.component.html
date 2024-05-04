@@ -12,7 +12,7 @@
               <li class="nav-item px-2" *ngFor="let link of links">
                 <a class="nav-link" [href]="link.url">{{ link.label }}</a>
               </li>    
-              <li [class.d-none]="!isLoggedIn && isAdmin" class="nav-item px-2">
+              <li [class.d-none]="!isLoggedIn || isAdmin" class="nav-item px-2">
                 <a class="nav-link" [href]="'/orders'">Поръчки</a>
               </li>    
               <li [class.d-none]="!isAdmin" class="nav-item px-2">
@@ -24,11 +24,23 @@
               <li [class.d-none]="!isLoggedIn" class="nav-item px-2">
                 <a class="nav-link" (click)="logOut()">Изход</a>
               </li>
+              <li *ngIf="isLoggedIn && user" class="text-light px-2 d-flex align-items-center">
+                <span>
+                  <i class="fa-solid fa-user"></i>
+                  {{user.firstname + ' ' + user.lastname}}
+                </span>
+              </li>
             </ul>
           </div>
         </nav>
       </div>
     </header>
+
+    <div *ngIf="loading" class="spinner-overlay">
+      <div class="spinner-border" role="status" style="border-color: #627254; border-right-color: transparent;">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
 
     
     

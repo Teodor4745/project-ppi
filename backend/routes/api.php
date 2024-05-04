@@ -4,6 +4,7 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ShippingTypeController;
@@ -36,7 +37,9 @@ Route::get('/categories', [ProductController::class, 'getCategories']);
 
 Route::get('/shipping_types', [ShippingTypeController::class, 'index']);
 Route::post('/sales', [SaleController::class, 'store']);
-Route::middleware('auth:sanctum')->get('/orders', [SaleController::class, 'index']); 
+Route::middleware('auth:sanctum')->get('/orders', [SaleController::class, 'index']);
+Route::post('/messages', [MessageController::class, 'store']);
+
 
 
 

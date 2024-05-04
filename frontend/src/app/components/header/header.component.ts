@@ -17,7 +17,9 @@ import { HttpClientModule } from '@angular/common/http';
 export class HeaderComponent implements OnInit {
   isLoggedIn: boolean = false;
   isAdmin: boolean = false;
+  user: any = null;
   cartCount = 0;
+  loading: boolean = false;
 
   links = [
     { label: 'Начало', url: '/home' },
@@ -42,9 +44,12 @@ export class HeaderComponent implements OnInit {
 
   }
 
-  getUser(): void { 
+  getUser(): void {
+    this.loading = true; 
     this.authService.getUser()?.subscribe(user => {
+      this.loading = false;
       if (user) {
+        this.user = user;
         this.isLoggedIn = true;
         if(user.role_name === 'Admin') {
           this.isAdmin = true;
@@ -53,6 +58,7 @@ export class HeaderComponent implements OnInit {
       else {
         this.isLoggedIn = false;
         this.isAdmin = false;
+        this.loading = false;
       } 
     });
   }

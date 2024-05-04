@@ -2,7 +2,7 @@
     <div class="container mt-5">
         <div class="row justify-content-center">
           <div class="col-md-6 mb-5">
-            <h2 class="text-center mb-4">Вход</h2>
+            <h2 class="text-center mb-4">Регистрация</h2>
             <form [formGroup]="registerForm" (submit)="onSubmit($event)">
                 <div class="mb-3">
                     <label for="first_name" class="form-label">Име:</label>
@@ -44,7 +44,7 @@
         </div>
         <div class="alert alert-danger d-flex align-items-center mt-3" role="alert" *ngIf="registerFailed">
           <i class="fa-solid fa-triangle-exclamation me-2"></i>
-          Грешка при регистрация, моля опитайте по-късно!
+          Грешка при регистрация, моля проверете полетата отново или опитайте по-късно!
         </div>
       </div> 
 </section>

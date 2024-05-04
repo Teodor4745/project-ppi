@@ -40,7 +40,6 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(event: any) {
     event.preventDefault();
-    console.log(this.registerForm);
     if (this.registerForm?.valid) {
       this.authService.register(this.registerForm.value).subscribe({
         next: (response) => {

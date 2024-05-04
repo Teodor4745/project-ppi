@@ -17,7 +17,9 @@
     background-color: $bg_primary;
     border-radius: 10px;
     color: #fff;
-    min-height: 430px;
+    min-height: 350px;
+    max-width: 430px;
+    margin: auto;
     img {
         height: 250px;
     }

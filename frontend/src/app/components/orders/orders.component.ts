@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 export class OrdersComponent {
   orders: any = [];
   user: any;
+  loading: boolean = false;
 
   constructor(
     private productService: ProductService,
@@ -28,10 +29,14 @@ export class OrdersComponent {
 
   getOrders(): void {
     if(this.user) {
+      this.loading = true;
       const action = this.productService.getOrders().subscribe({
         next: (data) => {
+          this.loading = false;
           this.orders = data.orders;
-          console.log('fetched');
+        },
+        error: (error) => {
+          this.loading = false;
         }
       });
     }

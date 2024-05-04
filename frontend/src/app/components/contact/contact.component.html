@@ -1,12 +1,12 @@
 <div class="parallax d-flex justify-content-center align-items-center">
-    <h2 class="text-uppercase fs-1">Свържете се с нас</h2>
+    <h2 class="text-uppercase fs-1 header-text">Свържете се с нас</h2>
 </div>
 
 <section id="contact" class="my-5">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 d-flex align-items-center justify-content-center flex-column">
-                <h3>
+                <h3 class="text-center">
                     Можете да се свържете с нас и на посочените контакти:
                 </h3>
 
@@ -23,7 +23,7 @@
                             <a class="text-dark ps-2" href="tel:+359888224502">+359888224502</a>
                         </p>
                     </div>
-                    <div class="col-12 mt-4">
+                    <div class="col-12 my-4">
                         <span class="fs-4 fw-bold d-block">Адрес:</span>
                         <span class="d-block mt-2">Западна промишлена зона 9009, Младост, Варна</span>
                     </div>
@@ -32,17 +32,17 @@
             <div class="col-lg-6">
                 <div class="form-wrapper">
                     <h2 class="text-uppercase text-center text-white mb-4">Изпратете вашето запитване</h2>
-                    <form>
+                    <form [formGroup]="contactForm" (ngSubmit)="onSubmit($event)">
                         <div class="form-floating my-3" *ngIf="!isLoggedIn">
-                            <input type="text" class="form-control" id="name" placeholder="Иван Иванов">
+                            <input type="text" formControlName="name" class="form-control" id="name" placeholder="Иван Иванов">
                             <label for="name">Име:</label>
                         </div>
                         <div class="form-floating my-3" *ngIf="!isLoggedIn">
-                            <input type="email" class="form-control" id="email" placeholder="example@email.com">
+                            <input type="email" formControlName="email" class="form-control" id="email" placeholder="example@email.com">
                             <label for="exampleInputEmail1">Електронна поща:</label>
                         </div>
                         <div class="form-floating my-3">
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            <textarea class="form-control" formControlName="question" id="exampleFormControlTextarea1" rows="3"></textarea>
                             <label for="exampleFormControlTextarea1">Запитване:</label>
                         </div>
 
@@ -53,6 +53,10 @@
                         </div>
                     </form>
                 </div>
+
+                <div *ngIf="feedbackMessage" class="alert mt-2" [class.alert-success]="messageType === 'success'" [class.alert-danger]="messageType === 'error'">
+                    {{ feedbackMessage }}
+                  </div>
             </div>
         </div>
     </div>
