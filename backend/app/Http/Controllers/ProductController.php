@@ -37,40 +37,26 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'shipping_type_id' => 'required|exists:shipping_types,id',
-            'products' => 'required|array',
-            'products.*.id' => 'required|exists:products,id',
-            'products.*.quantity' => 'required|integer|min:1'
+            'title' => 'required|max:255',
+            'price' => 'required|numeric',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,jfif|max:2048',
+            'product_category' => 'required|integer|exists:product_categories,id',
+            'description' => 'nullable|string',
         ]);
 
-        $user = Auth::user(); 
-
-        // Begin a transaction
-        DB::beginTransaction();
-        try {
-            $sale = new Sale([
-                'date' => now(),
-                'shipping_type_id' => $validatedData['shipping_type_id'],
-                'user_id' => $user->id,
-            ]);
-            $sale->save();
-
-            foreach ($validatedData['products'] as $product) {
-                SaleProduct::create([
-                    'sale_id' => $sale->id,
-                    'product_id' => $product['id'],
-                    'quantity' => $product['quantity']
-                ]);
-            }
-
-            DB::commit();
-            return response()->json(['message' => 'Order created successfully.', 'sale_id' => $sale->id], 201);
-
-        } catch (\Exception $e) {
-            DB::rollback();
-            return response()->json(['error' => 'Failed to create order', 'message' => $e->getMessage()], 500);
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $filename);
+            $validatedData['image'] = 'images/' . $filename; // store image path
         }
+
+        $product = new Product($validatedData);
+        $product->save();
+
+        return response()->json($product, 201);
     }
+
 
 
     public function show(Product $product)

@@ -12,6 +12,7 @@ class CreateSaleProductsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('sale_id');
             $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('quantity');
             $table->foreign('sale_id')->references('id')->on('sales')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();

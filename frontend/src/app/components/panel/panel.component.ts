@@ -19,6 +19,7 @@ export interface Category {
 export class PanelComponent implements OnInit {
   productForm: FormGroup;
   successMessage: string = '';
+  errorMessage: string = '';
   categories: Category[] = [];
 
   constructor(private fb: FormBuilder, private productService: ProductService) {
@@ -54,6 +55,8 @@ export class PanelComponent implements OnInit {
   }
 
   onSubmit() {
+    this.successMessage = '';
+    this.errorMessage = '';
     const formData = new FormData();
     Object.entries(this.productForm.controls).forEach(([key, control]) => {
       const value = control.value;
@@ -84,8 +87,8 @@ export class PanelComponent implements OnInit {
           this.productForm.reset();
         },
         error: (error) => {
+          this.errorMessage = 'Грешка при създаване на продукта!';
           console.error('Error creating product:', error);
-          this.successMessage = 'Грешка при създаване на продукта!';
         }
       });
     }
