@@ -39,7 +39,7 @@
   background-color: #ccc;
   color: #fff;
   bottom: 130px;
-  right: 22px;
+  right: 36px;
   padding: 10px;
   border: 2px solid #fff;
   width: 50px;
@@ -133,4 +133,12 @@
   align-items: center;
   background: rgba(255, 255, 255, 0.3);
   z-index: 9999;
+}
+
+.animal-content {
+  min-height: 400px;
+}
+
+.alert {
+  max-height: 50px;
 }
